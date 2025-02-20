@@ -1,0 +1,17 @@
+{
+  "name": "national-parks-campgrounds",
+  "version": "1.0.0",
+  "description": "project for PersevereNow JS final project",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node script.js",
+    "dev" : "live-server --open=index.html"
+  },
+  "author": "david",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.7.9"
+  }
+}
