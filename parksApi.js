@@ -9,7 +9,6 @@ const options = {
 };
 
 const getParks = async ({ start = 0, limit = 20, state = "" } = {}) => {
-  console.log(`getParks: start=${start}, limit=${limit}, state=${state}`);
   return axios.get(
     `${baseURL}?stateCode=${state}&start=${start}&limit=${limit}`,
     options

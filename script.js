@@ -12,24 +12,16 @@ let start = 0;
 // used to set the limit parameter for the getParks function
 const limit = 20;
 
-// let parks = [];
+let stateSelected = "";
 
 // when the user changes the state select element, retrieve the parks for that state
 selectStateElement.addEventListener("change", (event) => {
   selectStateElement.blur();
 
-  //remove any parks already listed
-  parksElement.innerHTML = "";
+  stateSelected = event.target.value;
 
-  hidePaginationButtons();
-
-  const state = event.target.value;
-
-  getParks({ state: state }).then((parks) => {
-    buildCards(parks.data.data);
-    showPaginationButtons();
-    disablePrevButton();
-    disableNextButton(parks.data.data.length);
+  getParks({ state: stateSelected }).then((parks) => {
+    buildDisplay(parks.data.data);
   });
 });
 
@@ -76,29 +68,28 @@ const closePopUp = () => {
 };
 
 const getNextParks = () => {
-  start += 20;
-  parksElement.innerHTML = "";
-  hidePaginationButtons();
-  getParks({ start: start }).then((parks) => {
-    buildCards(parks.data.data);
-    showPaginationButtons();
-    disablePrevButton();
-    disableNextButton(parks.data.data.length);
+  start += limit;
+  getParks({ start: start, state: stateSelected }).then((parks) => {
+    buildDisplay(parks.data.data);
   });
 };
 
 const getPrevParks = () => {
   if (start > 0) {
-    start -= 20;
-    parksElement.innerHTML = "";
-    hidePaginationButtons();
+    start -= limit;
     getParks({ start: start }).then((parks) => {
-      buildCards(parks.data.data);
-      showPaginationButtons();
-      disablePrevButton();
-      disableNextButton(parks.data.data.length);
+      buildDisplay(parks.data.data);
     });
   }
+};
+
+const buildDisplay = (parks) => {
+  parksElement.innerHTML = "";
+  hidePaginationButtons();
+  buildCards(parks);
+  showPaginationButtons();
+  disablePrevButton();
+  disableNextButton(parks);
 };
 
 const disablePrevButton = () => {
@@ -118,11 +109,11 @@ const hidePaginationButtons = () => {
 
 const showPaginationButtons = () => {
   const el = document.getElementById("pagination");
-  el.style.display = "block";
+  el.style.display = "flex";
 };
 
 // hide the pagination initially until the parks are loaded
-hidePaginationButtons();
+// hidePaginationButtons();
 
 //  retrieve the states from the states.json file
 //  populate the state select element with the states from the states.json file
@@ -135,11 +126,8 @@ getStates().then((states) => {
   }
 });
 
-//  retrieve the parks from the parksApi.js file
+//  retrieve the first 20 parks from the parksApi.js file
 //  populate the parks element with the parks from the parksApi.js file
 getParks().then((parks) => {
-  buildCards(parks.data.data);
-  showPaginationButtons();
-  disablePrevButton();
-  disableNextButton(parks.data.data.length);
+  buildDisplay(parks.data.data);
 });
