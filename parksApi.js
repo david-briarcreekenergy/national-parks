@@ -8,6 +8,14 @@ const options = {
   },
 };
 
+const getParks = async (start = 0, limit = 20, state = "") => {
+  return axios.get(
+    `${baseURL}?stateCode=${state}&start=${start}&limit=${limit}`,
+    options
+  );
+  // return axios.get(baseURL, options);
+};
+
 const getParksByState = async (state) => {
   return axios.get(`${baseURL}?stateCode=${state}`, options);
 };

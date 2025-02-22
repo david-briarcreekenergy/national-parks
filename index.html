@@ -4,18 +4,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-
-    <script src="./api.js"></script>
+    <script src="./parksApi.js"></script>
+    <script src="./localApi.js"></script>
+    <link rel="stylesheet" href="style.css" />
     <title>National Parks</title>
   </head>
   <body>
-    <h1>Our National Park Service</h1>
-    <div id="root">
+    <header>
+      <h1>Our National Park Service</h1>
+      <figure>
+        <img
+          src="./images/yellowstone_for_header.webp"
+          alt="Lower Falls of Yellowstone National Park"
+          srcset=""
+        />
+        <figcaption>
+          The Breathtaking Lower Falls of Yellowstone National Park
+        </figcaption>
+      </figure>
+    </header>
+    <main id="root">
       <label for="state-select">Select a State:</label>
-      <select name="states" id="state-select"></select>
+      <select id="state-select" ></select>
       <div id="parks"></div>
-    </div>
-    <script src="./script.js"></script>
+      <div id="pop-up" class="pop-up">
+        <div class="pop-up-content">
+          <!-- <span class="close-button" onclick="closePopUp()">&times;</span> -->
+          <button type="button" class="close-button" onclick="closePopUp()">
+            &times
+          </button>
+          <h2 id="pop-up-title"></h2>
+          <div id="pop-up-info"></div>
+          <div id="pop-up-img-container"></div>
+        </div>
+      </div>
+      <script src="./script.js"></script>
+    </main>
+    <footer>
+      <button type="button" id="previous" onclick="getParks()">Previous</button>
+      <button  type="button" id="next" onclick="getParks()">Next</button>
   </body>
 </html>

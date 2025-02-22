@@ -1,8 +1,18 @@
-const getStates = async () => {
-  return await fetch("./states.json")
-    .then((response) => response.json())
-    .catch((error) => console.log(`Error loading states: ${error}`));
-};
+const parksElement = document.getElementById("parks");
+
+const popUpElement = document.getElementById("pop-up");
+
+const popUpContent = document.getElementById("pop-up-content");
+
+const selectStateElement = document.getElementById("state-select");
+
+let parks = [];
+
+getParks().then((parks) => {
+  parks = parks.data.data;
+  console.log(parks);
+  buildCards(parks);
+});
 
 // retrieve the states from the states.json file
 getStates().then((states) => {
@@ -11,30 +21,67 @@ getStates().then((states) => {
     const option = document.createElement("option");
     option.value = key;
     option.textContent = states[key];
-    document.getElementById("state-select").appendChild(option);
+    selectStateElement.appendChild(option);
   }
 });
 
-const selectStateElement = document.getElementById("state-select");
-
-const parksElement = document.getElementById("parks").appendChild(card);
-
+// when the user changes the state select element, retrieve the parks for that state
 selectStateElement.addEventListener("change", (event) => {
-  const state = event.target.value;
-
   //remove any parks already listed
   parksElement.innerHTML = "";
 
-  //use the state variable to fetch the state parks from the national park service API
-  getParksByState(state).then((parkData) => {
-    console.log(parkData.data.data);
-    // populate the parks select element with the parks from the national park service API
-    for (const park of parkData.data.data) {
-      const card = document.createElement("div");
-      card.classList.add("card");
-      card.innerHTML = `
-        <h3>${park.fullName}</h3>`;
-      parksElement.appendChild(card);
-    }
+  const state = event.target.value;
+
+  getParks(0, 20, state).then((parks) => {
+    // parks = parks.data.data;
+    // console.log(parks);
+    buildCards(parks.data.data);
   });
+
+  // filtered = parks.filter((park) => {
+  //   return park.states.includes(state);
+  // });
+
+  // buildCards(filtered);
 });
+
+const buildCards = (parks) => {
+  for (const park of parks) {
+    const card = buildParkCard(park);
+    parksElement.appendChild(card);
+  }
+};
+
+const buildParkCard = (park) => {
+  const card = document.createElement("div");
+  card.classList.add("card");
+  card.innerHTML = `
+        <h3>${park.fullName}</h3>
+        <img src="${park.images[0].url}" alt="${park.images[0].altText}" />`;
+
+  card.addEventListener("click", () => {
+    buildPopUp(park);
+    openPopUp();
+  });
+
+  return card;
+};
+
+const buildPopUp = (park) => {
+  document.getElementById("pop-up-info").innerHTML = `
+          <h3>${park.fullName}</h3>
+          <p>${park.description}</p>
+          <p><a target="_blank" href="${park.url}">${park.url}</a></p>
+          `;
+
+  document.getElementById("pop-up-img-container").innerHTML = `
+          <img src="${park.images[1].url}" alt="${park.images[1].altText}" />`;
+};
+
+const openPopUp = () => {
+  popUpElement.style.display = "block";
+};
+
+const closePopUp = () => {
+  popUpElement.style.display = "none";
+};
