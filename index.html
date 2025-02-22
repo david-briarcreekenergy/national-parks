@@ -24,24 +24,33 @@
       </figure>
     </header>
     <main id="root">
-      <label for="state-select">Select a State:</label>
-      <select id="state-select" ></select>
-      <div id="parks"></div>
-      <div id="pop-up" class="pop-up">
-        <div class="pop-up-content">
-          <!-- <span class="close-button" onclick="closePopUp()">&times;</span> -->
-          <button type="button" class="close-button" onclick="closePopUp()">
-            &times
-          </button>
-          <h2 id="pop-up-title"></h2>
-          <div id="pop-up-info"></div>
-          <div id="pop-up-img-container"></div>
-        </div>
+      <div class="state-select">
+        <label for="state-select">Select a State:</label>
+        <select id="state-select"></select>
       </div>
-      <script src="./script.js"></script>
+      <div id="parks"></div>
     </main>
     <footer>
-      <button type="button" id="previous" onclick="getParks()">Previous</button>
-      <button  type="button" id="next" onclick="getParks()">Next</button>
+      <div id="pagination">
+        <button type="button" id="previous" onclick="getPrevParks()">
+          Previous
+        </button>
+        <button type="button" id="next" onclick="getNextParks()">Next</button>
+      </div>
+    </footer>
+    <div id="pop-up" class="pop-up">
+      <div class="pop-up-content">
+        <button type="button" class="close-button" onclick="closePopUp()">
+          &times
+        </button>
+        <h2 id="pop-up-title"></h2>
+        <div id="pop-up-info"></div>
+        <div id="pop-up-img-container"></div>
+        <div id="pop-up-url">
+          <a id="park-url" href="" target="_blank">Visit the Park's Website</a>
+        </div>
+      </div>
+    </div>
+    <script src="./script.js"></script>
   </body>
 </html>
