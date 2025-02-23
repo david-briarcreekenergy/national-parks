@@ -76,10 +76,12 @@ const buildPopUp = (park) => {
 
 const openPopUp = () => {
   popUpElement.style.display = "block";
+  document.body.classList.add("no-scroll"); // Disable scrolling
 };
 
 const closePopUp = () => {
   popUpElement.style.display = "none";
+  document.body.classList.remove("no-scroll"); // Re-enable scrolling
 };
 
 const getNextParks = () => {
