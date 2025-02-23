@@ -14,8 +14,12 @@ const LIMIT = 20;
 
 let stateSelected = "";
 
+// used to keep track of the number of parks displayed
+// in order to disable the next button when there are no more parks to display
 let numberOfParksDisplayed = 0;
 
+// used to keep track of the number of parks remaining
+// in order to disable the next button when there are no more parks to display
 let numberOfParksRemaining = 0;
 
 // when the user changes the state select element, retrieve the parks for that state
@@ -25,9 +29,8 @@ selectStateElement.addEventListener("change", (event) => {
   stateSelected = event.target.value;
 
   getParks({ state: stateSelected }).then((parks) => {
-    numberOfParksRemaining = parks.data.total;
-    console.log("TOTAL: ", parks.data.total);
-    console.log("LENGTH: ", parks.data.data.length);
+    numberOfParksRemaining = parks.data.total - parks.data.data.length;
+    numberOfParksDisplayed = parks.data.data.length;
     buildDisplay(parks.data.data);
   });
 });
@@ -76,11 +79,9 @@ const closePopUp = () => {
 
 const getNextParks = () => {
   start += LIMIT;
-  numberOfParksRemaining -= LIMIT;
   getParks({ start: start, state: stateSelected }).then((parks) => {
-    console.log("TOTAL: ", parks.data.total);
-    console.log("LENGTH: ", parks.data.data.length);
-    numberOfParksDisplayed = parks.total;
+    numberOfParksDisplayed = parks.data.data.length;
+    numberOfParksRemaining -= parks.data.data.length;
     buildDisplay(parks.data.data);
   });
 };
@@ -88,10 +89,9 @@ const getNextParks = () => {
 const getPrevParks = () => {
   if (start > 0) {
     start -= LIMIT;
-    numberOfParksRemaining -= LIMIT;
     getParks({ start: start }).then((parks) => {
-      console.log(parks.data.total);
-      numberOfParksDisplayed = parks.total;
+      numberOfParksDisplayed = parks.data.data.length;
+      numberOfParksRemaining += parks.data.data.length;
       buildDisplay(parks.data.data);
     });
   }
@@ -113,9 +113,7 @@ const disablePrevButton = () => {
 
 const disableNextButton = () => {
   const el = document.getElementById("next");
-  el.disabled =
-    numberOfParksDisplayed < LIMIT ||
-    numberOfParksDisplayed >= numberOfParksRemaining;
+  el.disabled = numberOfParksDisplayed < LIMIT || numberOfParksRemaining <= 0;
 };
 
 const hidePaginationButtons = () => {
@@ -129,7 +127,7 @@ const showPaginationButtons = () => {
 };
 
 // hide the pagination initially until the parks are loaded
-// hidePaginationButtons();
+hidePaginationButtons();
 
 //  retrieve the states from the states.json file
 //  populate the state select element with the states from the states.json file
@@ -145,10 +143,7 @@ getStates().then((states) => {
 //  retrieve the first 20 parks from the parksApi.js file
 //  populate the parks element with the parks from the parksApi.js file
 getParks().then((parks) => {
-  console.log("TOTAL: ", parks.data.total);
-  console.log("LENGTH: ", parks.data.data.length);
   numberOfParksRemaining = parks.data.total;
   numberOfParksDisplayed = parks.data.data.length;
-
   buildDisplay(parks.data.data);
 });
