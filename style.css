@@ -62,10 +62,12 @@ footer {
 
 button {
   margin: 0;
-  width: 8rem;
+  width: 12rem;
+  height: 4rem;
   color: var(--custom-green);
   border: 1px solid var(--custom-green);
   border-radius: 5px;
+  font-size: 2rem;
 }
 
 button[disabled] {
@@ -100,7 +102,7 @@ button:not([disabled]):hover {
 }
 
 #state-select {
-  width: 100%;
+  width: 50%;
   font-size: 2rem;
   margin: 20px;
   padding: 10px;
@@ -233,6 +235,19 @@ option {
   .card {
     width: 100%;
   }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  header figcaption {
+    font-size: 1rem;
+  }
+
+  .state-select label {
+    font-size: 1.5rem;
+  }
+
   header img {
     width: 100%;
     height: auto;
@@ -240,6 +255,7 @@ option {
   }
 
   #state-select {
+    width: 100%;
     font-size: 1.5rem;
   }
 

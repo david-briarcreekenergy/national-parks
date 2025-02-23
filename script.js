@@ -14,6 +14,10 @@ const LIMIT = 20;
 
 let stateSelected = "";
 
+// used to keep track of the number of parks total
+// in order to display/hide the Last button
+let numberOfParksTotal = 0;
+
 // used to keep track of the number of parks displayed
 // in order to disable the next button when there are no more parks to display
 let numberOfParksDisplayed = 0;
@@ -29,6 +33,7 @@ selectStateElement.addEventListener("change", (event) => {
   stateSelected = event.target.value;
 
   getParks({ state: stateSelected }).then((parks) => {
+    numberOfParksTotal = parks.data.total;
     numberOfParksRemaining = parks.data.total - parks.data.data.length;
     numberOfParksDisplayed = parks.data.data.length;
     buildDisplay(parks.data.data);
@@ -97,13 +102,37 @@ const getPrevParks = () => {
   }
 };
 
+const getFirstParks = () => {
+  start = 0;
+  getParks({ start: start }).then((parks) => {
+    numberOfParksDisplayed = parks.data.data.length;
+    numberOfParksRemaining += parks.data.data.length;
+    buildDisplay(parks.data.data);
+  });
+};
+
+const getLastParks = () => {
+  start = numberOfParksTotal - LIMIT;
+  getParks({ start: start }).then((parks) => {
+    numberOfParksDisplayed = parks.data.data.length;
+    numberOfParksRemaining = 0;
+    buildDisplay(parks.data.data);
+  });
+};
+
 const buildDisplay = (parks) => {
   parksElement.innerHTML = "";
   hidePaginationButtons();
   buildCards(parks);
   showPaginationButtons();
+  disableFirstButton();
   disablePrevButton();
   disableNextButton();
+};
+
+const disableFirstButton = () => {
+  const el = document.getElementById("first");
+  el.hidden = start === 0;
 };
 
 const disablePrevButton = () => {
@@ -143,6 +172,7 @@ getStates().then((states) => {
 //  retrieve the first 20 parks from the parksApi.js file
 //  populate the parks element with the parks from the parksApi.js file
 getParks().then((parks) => {
+  numberOfParksTotal = parks.data.total;
   numberOfParksRemaining = parks.data.total;
   numberOfParksDisplayed = parks.data.data.length;
   buildDisplay(parks.data.data);
