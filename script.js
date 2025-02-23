@@ -2,8 +2,6 @@ const parksElement = document.getElementById("parks");
 
 const popUpElement = document.getElementById("pop-up");
 
-const popUpContent = document.getElementById("pop-up-content");
-
 const selectStateElement = document.getElementById("state-select");
 
 // used to set the start parameter for the getParks function
@@ -14,16 +12,13 @@ const LIMIT = 20;
 
 let stateSelected = "";
 
-// used to keep track of the number of parks total
-// in order to display/hide the Last button
+// used to keep track of the number of parks total in order to display/hide the Last button
 let numberOfParksTotal = 0;
 
-// used to keep track of the number of parks displayed
-// in order to disable the next button when there are no more parks to display
+// used to keep track of the number of parks displayed in order to disable the next button when there are no more parks to display
 let numberOfParksDisplayed = 0;
 
-// used to keep track of the number of parks remaining
-// in order to disable the next button when there are no more parks to display
+// used to keep track of the number of parks remaining in order to disable the next button when there are no more parks to display
 let numberOfParksRemaining = 0;
 
 // when the user changes the state select element, retrieve the parks for that state

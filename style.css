@@ -288,7 +288,7 @@ option {
     font-size: 1.25rem;
   }
 
-  /* Prevent body from scrolling when overlay is active */
+  /* Prevent body from scrolling when pop-up is active */
   body.no-scroll {
     overflow: hidden;
     height: 100vh;
