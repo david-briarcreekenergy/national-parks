@@ -58,15 +58,21 @@ const buildParkCard = (park) => {
 };
 
 const buildPopUp = (park) => {
+  console.log(park);
   document.getElementById("pop-up-info").innerHTML = `
           <h3>${park.fullName}</h3>
           <p>${park.description}</p>
           `;
 
-  document.getElementById("pop-up-img-container").innerHTML = `
-          <img src="${park.images[1].url}" alt="${park.images[1].altText}" />`;
+  const imageUrl =
+    park.images.length > 1 ? park.images[1].url : park.images[0].url;
+  const imageAlt =
+    park.images.length > 1 ? park.images[1].altText : park.images[0].altText;
 
-  document.getElementById("park-url").href = park.url;
+  document.getElementById("pop-up-img-container").innerHTML = `
+          <img src="${imageUrl}" alt="${imageAlt}" />`;
+
+  document.getElementById("park-url").href = park.url || "";
 };
 
 const openPopUp = () => {
