@@ -128,11 +128,12 @@ const buildDisplay = (parks) => {
   disableFirstButton();
   disablePrevButton();
   disableNextButton();
+  disableLastButton();
 };
 
 const disableFirstButton = () => {
   const el = document.getElementById("first");
-  el.hidden = start === 0;
+  el.disabled = start === 0;
 };
 
 const disablePrevButton = () => {
@@ -142,6 +143,11 @@ const disablePrevButton = () => {
 
 const disableNextButton = () => {
   const el = document.getElementById("next");
+  el.disabled = numberOfParksDisplayed < LIMIT || numberOfParksRemaining <= 0;
+};
+
+const disableLastButton = () => {
+  const el = document.getElementById("last");
   el.disabled = numberOfParksDisplayed < LIMIT || numberOfParksRemaining <= 0;
 };
 

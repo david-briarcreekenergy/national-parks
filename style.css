@@ -60,7 +60,7 @@ footer {
   padding-bottom: 20px;
 }
 
-button {
+.pagination-button {
   margin: 0;
   width: 12rem;
   height: 4rem;
@@ -70,14 +70,14 @@ button {
   font-size: 2rem;
 }
 
-button[disabled] {
+.pagination-button[disabled] {
   background-color: #ccc;
   color: #666;
   cursor: not-allowed;
   border: gray;
 }
 
-button:not([disabled]):hover {
+.pagination-button:not([disabled]):hover {
   background-color: var(--custom-green);
   color: white;
   cursor: pointer;
@@ -262,5 +262,11 @@ option {
   option {
     width: 100%;
     font-size: 1.5rem;
+  }
+
+  .pagination-button {
+    width: 75px;
+    height: 30px;
+    font-size: 1rem;
   }
 }
