@@ -9,10 +9,14 @@ const selectStateElement = document.getElementById("state-select");
 // used to set the start parameter for the getParks function
 let start = 0;
 
-// used to set the limit parameter for the getParks function
-const limit = 20;
+// used to set the LIMIT parameter for the getParks function
+const LIMIT = 20;
 
 let stateSelected = "";
+
+let numberOfParksDisplayed = 0;
+
+let numberOfParksRemaining = 0;
 
 // when the user changes the state select element, retrieve the parks for that state
 selectStateElement.addEventListener("change", (event) => {
@@ -21,6 +25,7 @@ selectStateElement.addEventListener("change", (event) => {
   stateSelected = event.target.value;
 
   getParks({ state: stateSelected }).then((parks) => {
+    numberOfParksRemaining = parks.data.total;
     buildDisplay(parks.data.data);
   });
 });
@@ -68,7 +73,8 @@ const closePopUp = () => {
 };
 
 const getNextParks = () => {
-  start += limit;
+  start += LIMIT;
+  numberOfParksRemaining -= LIMIT;
   getParks({ start: start, state: stateSelected }).then((parks) => {
     buildDisplay(parks.data.data);
   });
@@ -76,7 +82,8 @@ const getNextParks = () => {
 
 const getPrevParks = () => {
   if (start > 0) {
-    start -= limit;
+    start -= LIMIT;
+    numberOfParksRemaining -= LIMIT;
     getParks({ start: start }).then((parks) => {
       buildDisplay(parks.data.data);
     });
@@ -89,7 +96,7 @@ const buildDisplay = (parks) => {
   buildCards(parks);
   showPaginationButtons();
   disablePrevButton();
-  disableNextButton(parks);
+  disableNextButton();
 };
 
 const disablePrevButton = () => {
@@ -97,9 +104,11 @@ const disablePrevButton = () => {
   el.disabled = start === 0;
 };
 
-const disableNextButton = (parksLength) => {
+const disableNextButton = () => {
   const el = document.getElementById("next");
-  el.disabled = parksLength < limit;
+  el.disabled =
+    numberOfParksDisplayed < LIMIT ||
+    numberOfParksDisplayed >= numberOfParksRemaining;
 };
 
 const hidePaginationButtons = () => {
@@ -129,5 +138,7 @@ getStates().then((states) => {
 //  retrieve the first 20 parks from the parksApi.js file
 //  populate the parks element with the parks from the parksApi.js file
 getParks().then((parks) => {
+  console.log(parks.data.total);
+  numberOfParksRemaining = parks.data.total;
   buildDisplay(parks.data.data);
 });
