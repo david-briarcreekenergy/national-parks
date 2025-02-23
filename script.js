@@ -26,6 +26,8 @@ selectStateElement.addEventListener("change", (event) => {
 
   getParks({ state: stateSelected }).then((parks) => {
     numberOfParksRemaining = parks.data.total;
+    console.log("TOTAL: ", parks.data.total);
+    console.log("LENGTH: ", parks.data.data.length);
     buildDisplay(parks.data.data);
   });
 });
@@ -76,6 +78,9 @@ const getNextParks = () => {
   start += LIMIT;
   numberOfParksRemaining -= LIMIT;
   getParks({ start: start, state: stateSelected }).then((parks) => {
+    console.log("TOTAL: ", parks.data.total);
+    console.log("LENGTH: ", parks.data.data.length);
+    numberOfParksDisplayed = parks.total;
     buildDisplay(parks.data.data);
   });
 };
@@ -85,6 +90,8 @@ const getPrevParks = () => {
     start -= LIMIT;
     numberOfParksRemaining -= LIMIT;
     getParks({ start: start }).then((parks) => {
+      console.log(parks.data.total);
+      numberOfParksDisplayed = parks.total;
       buildDisplay(parks.data.data);
     });
   }
@@ -138,7 +145,10 @@ getStates().then((states) => {
 //  retrieve the first 20 parks from the parksApi.js file
 //  populate the parks element with the parks from the parksApi.js file
 getParks().then((parks) => {
-  console.log(parks.data.total);
+  console.log("TOTAL: ", parks.data.total);
+  console.log("LENGTH: ", parks.data.data.length);
   numberOfParksRemaining = parks.data.total;
+  numberOfParksDisplayed = parks.data.data.length;
+
   buildDisplay(parks.data.data);
 });
