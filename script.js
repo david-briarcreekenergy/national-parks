@@ -1,3 +1,6 @@
+import { getParks } from "./parksApi.js";
+import { getStates } from "./statesApi.js";
+
 const parksElement = document.getElementById("parks");
 
 const popUpElement = document.getElementById("pop-up");
@@ -75,26 +78,30 @@ const buildPopUp = (park) => {
   document.getElementById("park-url").href = park.url || "";
 };
 
+// open the pop-up when the user clicks on a park card
 const openPopUp = () => {
   popUpElement.style.display = "block";
   document.body.classList.add("no-scroll"); // Disable scrolling
 };
 
-const closePopUp = () => {
+// close the pop-up when the user clicks on the close button
+document.getElementById("close-pop-up-button").addEventListener("click", () => {
   popUpElement.style.display = "none";
   document.body.classList.remove("no-scroll"); // Re-enable scrolling
-};
+});
 
-const getNextParks = () => {
+// retrieve the next 20 parks from the parksApi.js file
+document.getElementById("next").addEventListener("click", () => {
   start += LIMIT;
   getParks({ start: start, state: stateSelected }).then((parks) => {
     numberOfParksDisplayed = parks.data.data.length;
     numberOfParksRemaining -= parks.data.data.length;
     buildDisplay(parks.data.data);
   });
-};
+});
 
-const getPrevParks = () => {
+// retrieve the previous 20 parks from the parksApi.js file if start is greater than 0
+document.getElementById("previous").addEventListener("click", () => {
   if (start > 0) {
     start -= LIMIT;
     getParks({ start: start }).then((parks) => {
@@ -103,25 +110,27 @@ const getPrevParks = () => {
       buildDisplay(parks.data.data);
     });
   }
-};
+});
 
-const getFirstParks = () => {
+// retrieve the first 20 parks from the parksApi.js file
+document.getElementById("first").addEventListener("click", () => {
   start = 0;
   getParks({ start: start }).then((parks) => {
     numberOfParksDisplayed = parks.data.data.length;
     numberOfParksRemaining += parks.data.data.length;
     buildDisplay(parks.data.data);
   });
-};
+});
 
-const getLastParks = () => {
+// retrieve the last 20 parks from the parksApi.js file
+document.getElementById("last").addEventListener("click", () => {
   start = numberOfParksTotal - LIMIT;
   getParks({ start: start }).then((parks) => {
     numberOfParksDisplayed = parks.data.data.length;
     numberOfParksRemaining = 0;
     buildDisplay(parks.data.data);
   });
-};
+});
 
 const buildDisplay = (parks) => {
   parksElement.innerHTML = "";

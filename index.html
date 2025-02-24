@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./parksApi.js"></script>
-    <script src="./localApi.js"></script>
+    <script type="module" src="./parksApi.js"></script>
+    <script type="module" src="./statesApi.js"></script>
     <link rel="stylesheet" href="style.css" />
     <title>National Parks</title>
   </head>
@@ -32,43 +32,19 @@
     </main>
     <footer>
       <div id="pagination">
-        <button
-          type="button"
-          id="first"
-          class="pagination-button"
-          onclick="getFirstParks()"
-        >
+        <button type="button" id="first" class="pagination-button">
           First
         </button>
-        <button
-          type="button"
-          id="previous"
-          class="pagination-button"
-          onclick="getPrevParks()"
-        >
+        <button type="button" id="previous" class="pagination-button">
           Previous
         </button>
-        <button
-          type="button"
-          id="next"
-          class="pagination-button"
-          onclick="getNextParks()"
-        >
-          Next
-        </button>
-        <button
-          type="button"
-          id="last"
-          class="pagination-button"
-          onclick="getLastParks()"
-        >
-          Last
-        </button>
+        <button type="button" id="next" class="pagination-button">Next</button>
+        <button type="button" id="last" class="pagination-button">Last</button>
       </div>
     </footer>
     <div id="pop-up" class="pop-up">
       <div class="pop-up-content">
-        <button type="button" class="close-button" onclick="closePopUp()">
+        <button type="button" class="close-button" id="close-pop-up-button">
           &times
         </button>
         <h2 id="pop-up-title"></h2>
@@ -79,6 +55,6 @@
         </div>
       </div>
     </div>
-    <script src="./script.js"></script>
+    <script type="module" src="./script.js"></script>
   </body>
 </html>

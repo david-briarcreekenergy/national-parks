@@ -1,3 +1,5 @@
+// Retrieves data from the National Parks Service API
+
 const apiKey = "IcW7adKobbotMCEGiN62ZXR2JIDVYkX5Dwfsdg0D";
 
 const baseURL = "https://developer.nps.gov/api/v1/parks";
@@ -14,3 +16,5 @@ const getParks = async ({ start = 0, limit = 20, state = "" } = {}) => {
     options
   );
 };
+
+export { getParks };
