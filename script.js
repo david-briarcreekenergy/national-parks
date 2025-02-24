@@ -61,7 +61,6 @@ const buildParkCard = (park) => {
 };
 
 const buildPopUp = (park) => {
-  console.log(park);
   document.getElementById("pop-up-info").innerHTML = `
           <h3>${park.fullName}</h3>
           <p>${park.description}</p>
@@ -173,7 +172,7 @@ const showPaginationButtons = () => {
   el.style.display = "flex";
 };
 
-// hide the pagination initially until the parks are loaded
+//  hide the pagination initially until the parks are loaded
 hidePaginationButtons();
 
 //  retrieve the states from the states.json file
